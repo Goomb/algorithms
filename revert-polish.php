@@ -8,17 +8,11 @@ function revertPolish(array $data): int
         if (!in_array($operand, $operators)) {
             $stack[] = $operand;
         } else {
-            if ($operand === '+') {
-                $stack[] = array_pop($stack) + array_pop($stack);
-            }
-
-            if ($operand === '*') {
-                $stack[] = array_pop($stack) * array_pop($stack);
-            }
-
-            if ($operand === '-') {
-                $stack[] = -1 * array_pop($stack) + array_pop($stack);
-            }
+            $stack[] = match ($operand) {
+                '+' => array_pop($stack) + array_pop($stack),
+                '-' => -1 * array_pop($stack) + array_pop($stack),
+                '*' => array_pop($stack) * array_pop($stack),
+            };
         }
     }
 
